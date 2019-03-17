@@ -62,9 +62,8 @@ public class Screen extends JPanel implements Runnable{
                 board.physic();
             }
             repaint();
-
             try {
-                Thread.sleep(1500);
+                Thread.sleep(500);
             } catch (InterruptedException e) {
                 logger.log(Level.WARNING, "Interrupted!", e);
                 // Restore interrupted state...      
