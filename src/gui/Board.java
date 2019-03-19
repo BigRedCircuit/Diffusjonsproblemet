@@ -8,22 +8,22 @@ import java.util.ArrayList;
 
 public class Board {
 
-    public static int worldWidth = 31;
-    public static int worldHeight = 31;
-    public static int blockSize = 30;
+    public static int worldWidth = 20;
+    public static int worldHeight = 20;
+    public static int blockSize = 20;
 
     //start position of the spreading
-    private int yIndex = 10;
-    private int xIndex = 10;
+    private int yIndex;
+    private int xIndex;
 
     private List<Water> particles;
 
-    Random rand = new Random(1);
+    Random rand = new Random();
 
-    private double NORTH_SPREAD_PROB = 0.1;
-    private double  EAST_SPREAD_PROB = 0.1;
-    private double SOUTH_SPREAD_PROB = 0.1;
-    private double  WEST_SPREAD_PROB = 0.1;
+    private double NORTH_SPREAD_PROB = 0.05;
+    private double  EAST_SPREAD_PROB = 0.05;
+    private double SOUTH_SPREAD_PROB = 0.05;
+    private double  WEST_SPREAD_PROB = 0.05;
 
     Block [][] block;
 
@@ -32,6 +32,9 @@ public class Board {
     }
 
     private void define(){
+        yIndex = 2;
+        xIndex = 2;
+
         Location startingLocation = new Location(yIndex,xIndex);
         block = new Block[worldHeight][worldWidth];
         particles = new ArrayList<>();
@@ -57,25 +60,43 @@ public class Board {
     }
 
     public void physic(){
+
     }
 
     private ArrayList spreadWater(){
         ArrayList<Water> newList = new ArrayList();
-        for(int i = 0; i < particles.size(); i++){
-            if(rand.nextDouble() <= NORTH_SPREAD_PROB){
-                newList.add(new Water(new Location(particles.get(i).getYIndex()-1, particles.get(i).getXIndex())));
+        for(int i = 0; i < particles.size(); i++) {
+
+           if (rand.nextDouble() <= NORTH_SPREAD_PROB) {
+               if (particles.get(i).getYIndex() <= 0) {
+                   newList.add(new Water(new Location(particles.get(i).getYIndex() - 1 + worldHeight, particles.get(i).getXIndex())));
+               } else {
+                   newList.add(new Water(new Location(particles.get(i).getYIndex() - 1, particles.get(i).getXIndex())));
+               }
+           }
+
+            if (rand.nextDouble() <= EAST_SPREAD_PROB) {
+                if (particles.get(i).getXIndex() >= worldWidth - 1) {
+                    newList.add(new Water(new Location(particles.get(i).getYIndex(), 0)));
+                } else {
+                    newList.add(new Water(new Location(particles.get(i).getYIndex(), particles.get(i).getXIndex() + 1)));
+                }
             }
 
-            if(rand.nextDouble() <= EAST_SPREAD_PROB){
-                newList.add(new Water(new Location(particles.get(i).getYIndex(), particles.get(i).getXIndex()+1)));
-            }
+           if (rand.nextDouble() <= SOUTH_SPREAD_PROB) {
+               if (particles.get(i).getYIndex() >= worldHeight -1) {
+                   newList.add(new Water(new Location(0 , particles.get(i).getXIndex())));
+               } else {
+                   newList.add(new Water(new Location(particles.get(i).getYIndex()+1, particles.get(i).getXIndex())));
+               }
 
-            if(rand.nextDouble() <= SOUTH_SPREAD_PROB){
-                newList.add(new Water(new Location(particles.get(i).getYIndex() + 1, particles.get(i).getXIndex())));
-            }
-
-            if(rand.nextDouble() <= WEST_SPREAD_PROB){
-                newList.add(new Water(new Location(particles.get(i).getYIndex(), particles.get(i).getXIndex()-1)));
+          }
+            if (rand.nextDouble() <= WEST_SPREAD_PROB) {
+                if (particles.get(i).getXIndex() <= 0) {
+                    newList.add(new Water(new Location(particles.get(i).getYIndex(), particles.get(i).getXIndex() + worldWidth - 1)));
+                } else {
+                    newList.add(new Water(new Location(particles.get(i).getYIndex(), particles.get(i).getXIndex()-1)));
+                }
             }
         }
         return newList;

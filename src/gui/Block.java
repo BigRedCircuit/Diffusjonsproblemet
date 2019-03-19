@@ -1,6 +1,7 @@
 package gui;
 
 import java.awt.*;
+import gui.Board;
 
 public class Block extends Rectangle {
 
@@ -8,8 +9,9 @@ public class Block extends Rectangle {
     private int RGB_GREEN = 52;         //12,64
     private int RGB_BLUE = 78;          //10,38
 
-    private int step = 0;
+    // 0,
 
+    private int step = 0;
     private int decay = 100;
     private int decayRate = 10;
 

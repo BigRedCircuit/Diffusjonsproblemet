@@ -5,7 +5,7 @@ import java.awt.*;
 public class Main extends JFrame {
 
     private static String windowTitle = "Diffusjonsproblemet";
-    public static Dimension size = new Dimension(650,700);
+    public static Dimension size = new Dimension(800,700);
 
     public static void main(String[] args){
         new Main();
